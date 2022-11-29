@@ -2879,7 +2879,7 @@ __webpack_require__.r(__webpack_exports__);
 var employeService = {
   // Add Employe
   addEmploye: function addEmploye(formData) {
-    return window.axios.post(_config_api_routes__WEBPACK_IMPORTED_MODULE_1__.routes.addEmployeApi, formData, {
+    return axios__WEBPACK_IMPORTED_MODULE_2___default().post(_config_api_routes__WEBPACK_IMPORTED_MODULE_1__.routes.addEmployeApi, formData, {
       headers: (0,_Helper_helper__WEBPACK_IMPORTED_MODULE_0__.multipart_headers)()
     });
   }
