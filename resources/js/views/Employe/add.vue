@@ -1,13 +1,19 @@
 <script>
 // import axios from "axios";
 import { employeService } from "../../services";
+import DatePicker from 'vue2-datepicker';
+import 'vue2-datepicker/index.css';
 export default {
+    components: {DatePicker},
     data() {
         return {
             form: {
-                email: "abidhusain@gmail.com",
-                name: "abidhusain",
+                email: "",
+                name: "",
                 status: null,
+                time1: null,
+                date_time: null,
+                time3: null,
             },
             statuse: [
                 { text: "Select Status", value: null },
@@ -27,6 +33,7 @@ export default {
             fd.append("name", this.form.name);
             fd.append("email", this.form.email);
             fd.append("status", this.form.status);
+            fd.append("date_time", this.form.date_time == null ? '' : this.form.date_time);
             employeService
                 .addEmploye(fd)
                 .then((response) => {
@@ -51,11 +58,14 @@ export default {
             this.form.email = "";
             this.form.name = "";
             this.form.status = null;
+            this.form.date_time = '';
+            this.errorMessage = "";
             // Trick to reset/clear native browser form validation state
             this.show = false;
             this.$nextTick(() => {
                 this.show = true;
             });
+            this.submitButton = false;
         },
     },
 };
@@ -100,9 +110,24 @@ export default {
                     :options="statuse"
                 ></b-form-select>
             </b-form-group>
-
-            <b-button type="submit" variant="primary" :disabled="submitButton">Submit</b-button>
+            <div>
+                <!-- <date-picker v-model="form.time1" valueType="format" ></date-picker> -->
+                <date-picker
+                 v-model="form.date_time"
+                 type="datetime"
+                 class="mb-2"
+                 name="date_time"
+                 placeholder="Select datetime"
+                 id="date_time"
+                 value-type="format"
+                 format="YYYY-MM-DD HH:mm:ss"
+                 required
+                 ></date-picker>
+                <!-- <date-picker v-model="form.time3" range></date-picker> -->
+            </div>
+            <b-button type="submit" variant="primary" >Submit</b-button>
             <b-button type="reset" variant="danger">Reset</b-button>
+            <b-button type="button" @click="$router.back()" variant="secondary">Cancel</b-button>
         </b-form>
         <b-card class="mt-3" header="Form Data Result">
             <pre class="m-0">{{ form }}</pre>

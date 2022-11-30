@@ -18,19 +18,24 @@ class EmployeController extends Controller
         $validator = Validator::make($request->all(), 
         [
             'name' => 'required|string',
-            'email' => 'required|email',
+            'email' => 'required|unique:employe,email',
+            'date_time' => 'required',
         ],
         [
             'name.required' => 'The name is required',
             'email.required' => 'The email is required',
+            'email.unique'=> 'The email has already been taken',
+            'date_time.required' => "Plase Select Date Time",
         ]);
-        if ($validator->fails()) {    
+        if ($validator->fails()) {  
             return response()->json($validator->messages(), 400);
         }
+        
         $data = new Employe();
         $data->name = $request->name;
         $data->email = $request->email;
         $data->status = $request->status == 'null' ? 1 :$request->status;
+        $data->date_time = $request->date_time;
         $data->save();
         if ($data) {
             return response()->json("Employe Add successfully", 200);
@@ -55,6 +60,49 @@ class EmployeController extends Controller
         }else{
             return response()->json(['message' => 'Something is wrong', 'code' => 400]);
         }
-
+    }
+    public function GetEmployeById(Request $request){
+        $data = Employe::where('id',$request->id)->first();
+        if($data){
+            return response()->json(['data' => $data, 'code' => 200]);
+        }else{
+            return response()->json(['message' => 'Something is wrong', 'code' => 400]);
+        }
+    }
+    public function Editemploye(Request $request){
+        $validator = Validator::make($request->all(), 
+        [
+            'name' => 'required|string',
+            'email' => 'required|unique:employe,email,'.$request->id,
+            'date_time' => 'required'
+        ],
+        [
+            'name.required' => 'The name is required',
+            'email.required' => 'The email is required',
+            'email.unique'=> 'The email has already been taken',
+            'date_time.required' => "Plase Select Date Time",
+        ]);
+        if ($validator->fails()) {    
+            return response()->json($validator->messages(), 400);
+        }
+        $data = Employe::where('id',$request->id)->update([
+            'name'=>$request->name, 
+            'email' => $request->email,
+            'status' => $request->status == 'null' ? 1 :$request->status,
+            'date_time' => $request->date_time
+        ]);
+        if($data){
+            return response()->json(['message' => 'Employe Edit successfully', 'code' => 200]);
+        }else{
+            return response()->json(['message' => 'Something is wrong', 'code' => 400]);
+        }
+    }
+    public function Deleteemploye(Request $request){
+        $data = Employe::where('id',$request->id)->delete();
+        if($data){
+            return response()->json(['message' => 'Employe delete successfully', 'code' => 200]);
+        }else{
+            return response()->json(['message' => 'Something is wrong', 'code' => 400]);
+        }
     }
 }

@@ -16,6 +16,7 @@
 .badge{
     border: 0px;
     border-radius: 6px;
+    text-decoration: none;
 }
 .badge-danger:hover{
     background-color: #d03636f8;

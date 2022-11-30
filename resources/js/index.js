@@ -44,7 +44,7 @@ const router = new Router({
             component: Employe_add
         },
         {
-            path: '/employe/edit',
+            path: '/employe/edit/:employeId',
             name: '/employe/edit',
             component: Employe_edit
         }

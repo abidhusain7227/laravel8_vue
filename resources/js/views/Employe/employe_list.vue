@@ -32,6 +32,11 @@ export default {
                     key: 'status',
                     label: 'Status',
                     sortable:false,
+                },
+                {
+                    key: 'date_time',
+                    label: 'Date Time',
+                    sortable:false,
                 }
             ],
             loading: false,
@@ -60,14 +65,30 @@ export default {
                 employeService.activeInactiveEmploye(data).then((response) => {
                 if (response.data.code === 200) {
                     Vue.toasted.success(response.data.message,{
-                        duration: 5000
+                        duration: 2000
                     });
                     this.getEmploye(this.page);
                 } else {
                     Vue.toasted.error(response.data.message,{
-                        duration: 5000
+                        duration: 2000
                     });
                 }
+                });
+            }
+        },
+        deleteEmploye(id){
+            if(confirm('Are you sure you want to delete Employe?')){
+                employeService.deleteEmploye({ id:id }).then((response) => {
+                    if (response.data.code === 200) {
+                        Vue.toasted.success(response.data.message,{
+                            duration: 2000
+                        });
+                        this.getEmploye(this.page);
+                    } else {
+                        Vue.toasted.error(response.data.message,{
+                            duration: 2000
+                        });
+                    }
                 });
             }
         },
@@ -159,11 +180,17 @@ export default {
                           @click="activeInactiveEmploye(0,data.item.id)"
                         >Active</button>
                     </template>
-                    <!-- <template v-slot:cell(action)="data">
+                    <template v-slot:cell(action)="data">
                         <div>
-                            <router-link :to="/employe/edit">Edit</router-link>
+                            <router-link :to="{name:'/employe/edit', params: { employeId: data.item.id }}" class="badge-success badge" >Edit</router-link>
+                            <button type="button" class="badge-danger badge" @click="deleteEmploye(data.item.id)">Delete</button>
                         </div>
-                    </template> -->
+                    </template>
+                    <template v-slot:cell(date_time)="data">
+                        <div>
+                            <label for="">{{data.item.date_time}}</label>
+                        </div>
+                    </template>
 
                     <template #empty>
                         <p class="text-center">No Employe Found</p>
