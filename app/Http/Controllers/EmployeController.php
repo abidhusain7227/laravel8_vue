@@ -30,6 +30,7 @@ class EmployeController extends Controller
         $data = new Employe();
         $data->name = $request->name;
         $data->email = $request->email;
+        $data->status = $request->status == 'null' ? 1 :$request->status;
         $data->save();
         if ($data) {
             return response()->json("Employe Add successfully", 200);
@@ -46,5 +47,14 @@ class EmployeController extends Controller
             }
         })->orderBy('id', 'DESC')->paginate($record);
         return response()->json(['result'=>$data, 'code'=>200]);
+    }
+    public function ActiveInactiveEmploye(Request $request){
+        $data = Employe::where('id',$request->id)->update(['status'=>$request->status]);
+        if($data){
+            return response()->json(['message' => 'Employee status change successfully', 'code' => 200]);
+        }else{
+            return response()->json(['message' => 'Something is wrong', 'code' => 400]);
+        }
+
     }
 }

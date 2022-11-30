@@ -23,3 +23,4 @@ use Illuminate\Support\Facades\Route;
 Route::get('getdata',[EmployeController::class,'Getdata']);
 Route::post('addemploye',[EmployeController::class,'Addemploye']);
 Route::post('getemploye',[EmployeController::class,'Getemploye']);
+Route::post('activeinactiveemploye',[EmployeController::class,'ActiveInactiveEmploye']);
