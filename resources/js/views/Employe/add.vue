@@ -19,12 +19,13 @@ export default {
             ],
             show: true,
             errorMessage: "",
+            submitButton:false,
         };
     },
     methods: {
         onSubmit(event) {
             event.preventDefault();
-            
+            this.submitButton = true;
             const fd = new FormData();
             fd.append("name", this.form.name);
             fd.append("email", this.form.email);
@@ -37,6 +38,7 @@ export default {
                     Vue.toasted.success(response.data,{
                         duration: 5000
                     });
+                    this.$router.push({ name: "employe" });
                 })
                 .catch((e) => {
                     // console.log(err.response.errors)
@@ -116,7 +118,7 @@ export default {
                 </b-form-checkbox-group>
             </b-form-group>
 
-            <b-button type="submit" variant="primary">Submit</b-button>
+            <b-button type="submit" variant="primary" :disabled="submitButton">Submit</b-button>
             <b-button type="reset" variant="danger">Reset</b-button>
         </b-form>
         <b-card class="mt-3" header="Form Data Result">
