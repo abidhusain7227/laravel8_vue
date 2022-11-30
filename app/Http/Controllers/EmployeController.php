@@ -30,9 +30,21 @@ class EmployeController extends Controller
         $data = new Employe();
         $data->name = $request->name;
         $data->email = $request->email;
-        // $data->save();
+        $data->save();
         if ($data) {
             return response()->json("Employe Add successfully", 200);
         }
+    }
+
+    public function Getemploye(Request $request){
+        $search = $request->search;
+        $record = $request->record;
+        $data = Employe::where(function($q) use ($search) {
+            if($search != ''){
+                $q->where('name','LIKE',"%".$search."%");
+                $q->Orwhere('email','LIKE',"%".$search."%");
+            }
+        })->orderBy('id', 'DESC')->paginate($record);
+        return response()->json(['result'=>$data, 'code'=>200]);
     }
 }

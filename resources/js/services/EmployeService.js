@@ -5,6 +5,7 @@ import axios from 'axios';
 export const employeService = {
 
     // Add Employe
-    addEmploye: (formData) => axios.post(routes.addEmployeApi, formData, { headers: multipart_headers() })
+    addEmploye: (formData) => axios.post(routes.addEmployeApi, formData, { headers: multipart_headers() }),
+    getEmploye: (formData) => axios.post(routes.getEmployeApi, formData)
     
 }

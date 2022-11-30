@@ -5,6 +5,7 @@ import BootstrapVue from 'bootstrap-vue'
 import App from '@/js/views/App'
 import "bootstrap-vue/dist/bootstrap-vue.css"
 import Toasted from 'vue-toasted';
+import pagination from "laravel-vue-pagination";
 import router from '@/js/index'
 window.Vue = Vue;
 
@@ -19,7 +20,7 @@ Vue.use(Toasted, {
       }
     }
 });
-
+Vue.use(pagination);
 
 window.onload = function() {
     const app = new Vue({
