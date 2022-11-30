@@ -129,8 +129,5 @@ export default {
             <b-button type="reset" variant="danger">Reset</b-button>
             <b-button type="button" @click="$router.back()" variant="secondary">Cancel</b-button>
         </b-form>
-        <b-card class="mt-3" header="Form Data Result">
-            <pre class="m-0">{{ form }}</pre>
-        </b-card>
     </div>
 </template>
