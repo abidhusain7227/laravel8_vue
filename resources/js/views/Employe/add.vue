@@ -1,21 +1,24 @@
 <script>
 // import axios from "axios";
 import { employeService } from "../../services";
+import DatePicker from 'vue2-datepicker';
+import 'vue2-datepicker/index.css';
 export default {
+    components: {DatePicker},
     data() {
         return {
             form: {
-                email: "abidhusain@gmail.com",
-                name: "abidhusain",
-                food: null,
-                checked: [],
+                email: "",
+                name: "",
+                status: null,
+                time1: null,
+                date_time: null,
+                time3: null,
             },
-            foods: [
-                { text: "Select One", value: null },
-                "Carrots",
-                "Beans",
-                "Tomatoes",
-                "Corn",
+            statuse: [
+                { text: "Select Status", value: null },
+                { text: "active", value: 1 },
+                { text: "inactive", value: 0 },
             ],
             show: true,
             errorMessage: "",
@@ -29,8 +32,8 @@ export default {
             const fd = new FormData();
             fd.append("name", this.form.name);
             fd.append("email", this.form.email);
-            fd.append("food", this.form.food);
-            fd.append("checked", this.form.checked);
+            fd.append("status", this.form.status);
+            fd.append("date_time", this.form.date_time == null ? '' : this.form.date_time);
             employeService
                 .addEmploye(fd)
                 .then((response) => {
@@ -54,19 +57,22 @@ export default {
             // Reset our form values
             this.form.email = "";
             this.form.name = "";
-            this.form.food = null;
-            this.form.checked = [];
+            this.form.status = null;
+            this.form.date_time = '';
+            this.errorMessage = "";
             // Trick to reset/clear native browser form validation state
             this.show = false;
             this.$nextTick(() => {
                 this.show = true;
             });
+            this.submitButton = false;
         },
     },
 };
 </script>
 <template>
     <div class="mt-3 container">
+        <h2>Add Employe</h2>
         <div v-for="(errorArray, index) in errorMessage" :key="index">
             <span class="text-danger">{{ errorArray[0] }} </span>
         </div>
@@ -97,29 +103,31 @@ export default {
                 ></b-form-input>
             </b-form-group>
 
-            <b-form-group id="input-group-3" label="Food:" label-for="input-3">
+            <b-form-group id="input-group-3" label="Status:" label-for="input-3" class="mb-2">
                 <b-form-select
                     id="input-3"
-                    v-model="form.food"
-                    :options="foods"
+                    v-model="form.status"
+                    :options="statuse"
                 ></b-form-select>
             </b-form-group>
-
-            <b-form-group id="input-group-4" v-slot="{ ariaDescribedby }">
-                <b-form-checkbox-group
-                    v-model="form.checked"
-                    id="checkboxes-4"
-                    :aria-describedby="ariaDescribedby"
-                >
-                    <b-form-checkbox value="me">Check me out</b-form-checkbox>
-                    <b-form-checkbox value="that"
-                        >Check that out</b-form-checkbox
-                    >
-                </b-form-checkbox-group>
-            </b-form-group>
-
-            <b-button type="submit" variant="primary" :disabled="submitButton">Submit</b-button>
+            <div>
+                <!-- <date-picker v-model="form.time1" valueType="format" ></date-picker> -->
+                <date-picker
+                 v-model="form.date_time"
+                 type="datetime"
+                 class="mb-2"
+                 name="date_time"
+                 placeholder="Select datetime"
+                 id="date_time"
+                 value-type="format"
+                 format="YYYY-MM-DD HH:mm:ss"
+                 required
+                 ></date-picker>
+                <!-- <date-picker v-model="form.time3" range></date-picker> -->
+            </div>
+            <b-button type="submit" variant="primary" >Submit</b-button>
             <b-button type="reset" variant="danger">Reset</b-button>
+            <b-button type="button" @click="$router.back()" variant="secondary">Cancel</b-button>
         </b-form>
         <b-card class="mt-3" header="Form Data Result">
             <pre class="m-0">{{ form }}</pre>

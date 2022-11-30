@@ -28,6 +28,16 @@ export default {
                     label: "Action",
                     sortable: false,
                 },
+                {
+                    key: 'status',
+                    label: 'Status',
+                    sortable:false,
+                },
+                {
+                    key: 'date_time',
+                    label: 'Date Time',
+                    sortable:false,
+                }
             ],
             loading: false,
         };
@@ -47,6 +57,41 @@ export default {
                 this.employe = response.data.result.data;
             });
         },
+        activeInactiveEmploye(status , id){
+            console.log(status)
+            console.log(id)
+            if(confirm('Are you sure you want to change Employee status?')){
+                var data = {id: id, status: status}
+                employeService.activeInactiveEmploye(data).then((response) => {
+                if (response.data.code === 200) {
+                    Vue.toasted.success(response.data.message,{
+                        duration: 2000
+                    });
+                    this.getEmploye(this.page);
+                } else {
+                    Vue.toasted.error(response.data.message,{
+                        duration: 2000
+                    });
+                }
+                });
+            }
+        },
+        deleteEmploye(id){
+            if(confirm('Are you sure you want to delete Employe?')){
+                employeService.deleteEmploye({ id:id }).then((response) => {
+                    if (response.data.code === 200) {
+                        Vue.toasted.success(response.data.message,{
+                            duration: 2000
+                        });
+                        this.getEmploye(this.page);
+                    } else {
+                        Vue.toasted.error(response.data.message,{
+                            duration: 2000
+                        });
+                    }
+                });
+            }
+        },
     },
     mounted() {
         this.getEmploye();
@@ -60,10 +105,8 @@ export default {
             <div class="col-md-12">
                 <div class="employe">
                     <h2>Employe List</h2>
-                    <router-link
-                        :to="{ name: 'employe/add' }"
-                        class="btn btn-success"
-                        ><i class="mdi mdi-plus mr-1"></i> Add Employe</router-link
+                    <router-link :to="{ name: 'employe/add' }" class="btn btn-success">
+                        <i class="mdi mdi-plus mr-1"></i> Add Employe</router-link
                     >
                 </div>
             </div>
@@ -123,10 +166,30 @@ export default {
                             <div>{{ data.item.email }}</div>
                         </h6>
                     </template>
+                    <template v-slot:cell(status)="data">
+                        <button
+                          v-if="data.item.status == '0'"
+                          type="submit"
+                          class="badge-danger badge"
+                          @click="activeInactiveEmploye(1,data.item.id)"
+                        >Inactive</button>
+                        <button
+                          v-if="data.item.status == '1'"
+                          type="submit"
+                          class="badge-success badge"
+                          @click="activeInactiveEmploye(0,data.item.id)"
+                        >Active</button>
+                    </template>
                     <template v-slot:cell(action)="data">
-                        <h6>
-                            <div>{{ data.item.email }}</div>
-                        </h6>
+                        <div>
+                            <router-link :to="{name:'/employe/edit', params: { employeId: data.item.id }}" class="badge-success badge" >Edit</router-link>
+                            <button type="button" class="badge-danger badge" @click="deleteEmploye(data.item.id)">Delete</button>
+                        </div>
+                    </template>
+                    <template v-slot:cell(date_time)="data">
+                        <div>
+                            <label for="">{{data.item.date_time}}</label>
+                        </div>
                     </template>
 
                     <template #empty>
