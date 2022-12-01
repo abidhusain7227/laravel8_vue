@@ -11,6 +11,7 @@ export default {
             paginations: {},
             page: 0,
             record: 5,
+            status:"",
             limit: 2,
             fields: [
                 {
@@ -49,6 +50,7 @@ export default {
                 search: this.search,
                 record: this.record,
                 page: page && page > 0 ? page : 1,
+                status: this.status,
             };
             this.page = filters.page;
             employeService.getEmploye(filters).then((response) => {
@@ -127,6 +129,20 @@ export default {
                                         placeholder='Searc...'
                                     />
                                     <i class="bx bx-search-alt search-icon"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="search-box mr-2 mb-2 d-inline-block">
+                            <div class="date-range-list">
+                                <label>Status :</label>
+                                <div class="position-relative">
+                                    <select v-model="status" @change="getEmploye()" name="status" id="status" class="form-control">
+                                        <option value="">Select Status</option>
+                                        <option value="1">Active</option>
+                                        <option value="0">Inactive</option>
+                                    </select>
                                 </div>
                             </div>
                         </div>

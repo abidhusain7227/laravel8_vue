@@ -103,9 +103,10 @@ export default {
                 ></b-form-input>
             </b-form-group>
 
-            <b-form-group id="input-group-3" label="Status:" label-for="input-3" class="mb-2">
+            <b-form-group id="input-group-3" label="Status:" label-for="input-3" class="mb-2 col-md-3">
                 <b-form-select
                     id="input-3"
+                    class="form-control"
                     v-model="form.status"
                     :options="statuse"
                 ></b-form-select>
@@ -115,7 +116,7 @@ export default {
                 <date-picker
                  v-model="form.date_time"
                  type="datetime"
-                 class="mb-2"
+                 class="mb-2 form-control"
                  name="date_time"
                  placeholder="Select datetime"
                  id="date_time"
