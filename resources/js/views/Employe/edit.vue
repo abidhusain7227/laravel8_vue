@@ -105,6 +105,7 @@ export default {
                 <date-picker
                  v-model="form.date_time"
                  type="datetime"
+                 class="mb-2"
                  name="date_time"
                  placeholder="Select datetime"
                  id="date_time"

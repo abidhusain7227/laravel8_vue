@@ -45,12 +45,20 @@ class EmployeController extends Controller
     public function Getemploye(Request $request){
         $search = $request->search;
         $record = $request->record;
+        $status = $request->status;
+        // dd($status != '');
         $data = Employe::where(function($q) use ($search) {
             if($search != ''){
                 $q->where('name','LIKE',"%".$search."%");
                 $q->Orwhere('email','LIKE',"%".$search."%");
             }
-        })->orderBy('id', 'DESC')->paginate($record);
+        })
+        ->where(function($s) use ($status) {
+            if ($status != '') {
+                $s->where('status',$status);
+            }
+        })
+        ->orderBy('id', 'DESC')->paginate($record);
         return response()->json(['result'=>$data, 'code'=>200]);
     }
     public function ActiveInactiveEmploye(Request $request){
