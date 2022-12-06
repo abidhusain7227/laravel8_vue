@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\EmployeController;
 use App\Http\Controllers\HomeController;
 use App\Models\Employe;
@@ -21,9 +22,22 @@ use Illuminate\Support\Facades\Route;
 //     return $request->user();
 // });
 
+Route::post('register',[AuthController::class,'Register']);
+Route::post('login',[AuthController::class,'Login']);
+Route::get('getlogin',[AuthController::class,'Getlogin']);
+
+Route::group(['middleware' =>["auth:sanctum"]],function(){
+    Route::get('/user', function (Request $request) {
+        return $request->user();
+    });
+    Route::get('/logout',[AuthController::class,'Logout']);
+    Route::post('getemploye',[EmployeController::class,'Getemploye']);
+});
+
+
+
 Route::get('getdata',[EmployeController::class,'Getdata']);
 Route::post('addemploye',[EmployeController::class,'Addemploye']);
-Route::post('getemploye',[EmployeController::class,'Getemploye']);
 Route::post('activeinactiveemploye',[EmployeController::class,'ActiveInactiveEmploye']);
 Route::post('getemployebyid',[EmployeController::class,'GetEmployeById']);
 Route::post('editemploye',[EmployeController::class,'Editemploye']);
