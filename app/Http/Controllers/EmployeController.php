@@ -58,7 +58,8 @@ class EmployeController extends Controller
                 $s->where('status',$status);
             }
         })
-        ->orderBy('id', 'DESC')->paginate($record);
+        ->orderBy('id', 'asc')
+        ->paginate($record);
         return response()->json(['result'=>$data, 'code'=>200]);
     }
     public function ActiveInactiveEmploye(Request $request){

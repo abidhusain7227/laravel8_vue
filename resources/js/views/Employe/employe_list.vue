@@ -8,6 +8,7 @@ export default {
         return {
             search: "",
             employe: null,
+            employeCount: 0,
             paginations: {},
             page: 0,
             record: 5,
@@ -57,6 +58,7 @@ export default {
                 this.loading = false;
                 this.paginations = response.data.result
                 this.employe = response.data.result.data;
+                this.employeCount = response.data.result.total;
             });
         },
         activeInactiveEmploye(status , id){
@@ -106,7 +108,7 @@ export default {
         <div class="row">
             <div class="col-md-12">
                 <div class="employe">
-                    <h2>Employe List</h2>
+                    <h2>Employe List ({{employeCount}})</h2>
                     <router-link :to="{ name: 'employe/add' }" class="btn btn-success">
                         <i class="mdi mdi-plus mr-1"></i> Add Employe</router-link
                     >
@@ -116,6 +118,28 @@ export default {
         <div class="row">
             <div class="col-12 table-main-list vendor-table table-responsive">
                 <div class="row">
+                    <div class="col-md-2">
+                        <div class="search-box mr-2 mb-2 d-inline-block">
+                            <div class="date-range-list">
+                                <label>Show record :</label>
+                                <div class="position-relative">
+                                    <select v-model="record" @change="getEmploye()" name="status" id="status" class="form-control">
+                                        <option disabled>Select number</option>
+                                        <option value="5">05</option>
+                                        <option value="10">10</option>
+                                        <option value="20">20</option>
+                                        <option value="30">30</option>
+                                        <option value="40">40</option>
+                                        <option value="50">50</option>
+                                        <option value="100">100</option>
+                                        <option value="150">150</option>
+                                        <option value="250">250</option>
+                                        <option value="1000">1000</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="col-md-2">
                         <div class="search-box mr-2 mb-2 d-inline-block">
                             <div class="date-range-list">
@@ -166,14 +190,7 @@ export default {
 
                     <template v-slot:cell(name)="data">
                         <h6>
-                            <div
-                                v-if="
-                                    data.item.name && data.item.name.length > 25
-                                "
-                            >
-                                {{ data.item.e_name.substr(0, 25) + "..." }}
-                            </div>
-                            <div v-else>{{ data.item.name }}</div>
+                            <div>{{ data.item.name }}</div>
                         </h6>
                     </template>
 
