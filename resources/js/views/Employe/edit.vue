@@ -1,10 +1,11 @@
 <script>
 // import axios from "axios";
+import navbarVue from "../layout/navbar.vue";
 import { employeService } from "../../services";
 import DatePicker from 'vue2-datepicker';
 import 'vue2-datepicker/index.css';
 export default {
-    components: {DatePicker},
+    components: {DatePicker, navbarVue },
     data() {
         return {
             form: {
@@ -62,60 +63,63 @@ export default {
 };
 </script>
 <template>
-    <div class="mt-3 container">
-        <h2>Edit Employe</h2>
-        <div v-for="(errorArray, index) in errorMessage" :key="index">
-            <span class="text-danger">{{ errorArray[0] }} </span>
-        </div>
-        <b-form @submit="onUpdate" v-if="show">
-            <b-form-group
-                id="input-group-1"
-                label="Email address:"
-                label-for="input-1"
-                description="We'll never share your email with anyone else."
-            >
-                <b-form-input
-                    id="input-1"
-                    v-model="form.email"
-                    type="email"
-                    placeholder="Enter email"
-                ></b-form-input>
-            </b-form-group>
-
-            <b-form-group
-                id="input-group-2"
-                label="Your Name:"
-                label-for="input-2"
-            >
-                <b-form-input
-                    id="input-2"
-                    v-model="form.name"
-                    placeholder="Enter name"
-                ></b-form-input>
-            </b-form-group>
-
-            <b-form-group id="input-group-3" label="Status:" label-for="input-3" class="mb-2">
-                <b-form-select
-                    id="input-3"
-                    v-model="form.status"
-                    :options="statuse"
-                ></b-form-select>
-            </b-form-group>
-            <div>
-                <date-picker
-                 v-model="form.date_time"
-                 type="datetime"
-                 class="mb-2"
-                 name="date_time"
-                 placeholder="Select datetime"
-                 id="date_time"
-                 value-type="format"
-                 format="YYYY-MM-DD HH:mm:ss"
-                 ></date-picker>
+    <div>
+        <navbarVue />
+        <div class="mt-3 container">
+            <h2>Edit Employe</h2>
+            <div v-for="(errorArray, index) in errorMessage" :key="index">
+                <span class="text-danger">{{ errorArray[0] }} </span>
             </div>
-
-            <b-button type="submit" variant="primary" >Update</b-button>
-            <b-button type="button" @click="$router.back()" variant="secondary">Cancel</b-button>
-        </b-form>
+            <b-form @submit="onUpdate" v-if="show">
+                <b-form-group
+                    id="input-group-1"
+                    label="Email address:"
+                    label-for="input-1"
+                    description="We'll never share your email with anyone else."
+                >
+                    <b-form-input
+                        id="input-1"
+                        v-model="form.email"
+                        type="email"
+                        placeholder="Enter email"
+                    ></b-form-input>
+                </b-form-group>
+    
+                <b-form-group
+                    id="input-group-2"
+                    label="Your Name:"
+                    label-for="input-2"
+                >
+                    <b-form-input
+                        id="input-2"
+                        v-model="form.name"
+                        placeholder="Enter name"
+                    ></b-form-input>
+                </b-form-group>
+    
+                <b-form-group id="input-group-3" label="Status:" label-for="input-3" class="mb-2">
+                    <b-form-select
+                        id="input-3"
+                        v-model="form.status"
+                        :options="statuse"
+                    ></b-form-select>
+                </b-form-group>
+                <div>
+                    <date-picker
+                     v-model="form.date_time"
+                     type="datetime"
+                     class="mb-2"
+                     name="date_time"
+                     placeholder="Select datetime"
+                     id="date_time"
+                     value-type="format"
+                     format="YYYY-MM-DD HH:mm:ss"
+                     ></date-picker>
+                </div>
+    
+                <b-button type="submit" variant="primary" >Update</b-button>
+                <b-button type="button" @click="$router.back()" variant="secondary">Cancel</b-button>
+            </b-form>
+        </div>
     </div>
 </template>

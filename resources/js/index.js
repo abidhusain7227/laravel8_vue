@@ -7,6 +7,7 @@ import pageNotfound from "@/js/views/pagenotfound";
 import Employe from "./views/Employe/employe_list.vue";
 import Employe_add from "./views/Employe/add.vue";
 import Employe_edit from './views/Employe/edit.vue';
+import Login from './views/auth/login.vue';
 
 Vue.use(Router);
 
@@ -17,6 +18,11 @@ const router = new Router({
             path: '*',
             name: '404',
             component: pageNotfound
+        },
+        {
+            path: '/login',
+            name: 'login',
+            component: Login
         },
         {
             path: '/',
@@ -50,5 +56,17 @@ const router = new Router({
         }
     ]
 });
+
+router.beforeEach((to, from, next) => {
+    var isAuthenticated = Vue.prototype.$auth.logging_done
+    if (to.name !== 'login' && !isAuthenticated){
+        next({ name: 'login' })  
+    }else if(to.name == 'login' && isAuthenticated){
+        next({ name: 'home' })
+    }else{
+        next()
+    }
+     
+  })
 
 export default router;

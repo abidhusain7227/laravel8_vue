@@ -1,13 +1,13 @@
 <script>
 // import Navbar from "../views/layout/navbar";
-import navbarVue from "./layout/navbar.vue";
+// import navbarVue from "./layout/navbar.vue";
 export default {
-    components: { navbarVue },
+    components: {  },
 };
 </script>
 <template>
     <div>
-        <navbarVue />
+        <!-- <navbarVue /> -->
         
         <!-- Dynamic view based on routing system here -->
         <router-view></router-view>
