@@ -30,15 +30,14 @@ Route::group(['middleware' =>["auth:sanctum"]],function(){
     Route::get('/user', function (Request $request) {
         return $request->user();
     });
-    Route::get('/logout',[AuthController::class,'Logout']);
+    Route::get('logout',[AuthController::class,'Logout']);
     Route::post('getemploye',[EmployeController::class,'Getemploye']);
+    Route::post('getemployebyid',[EmployeController::class,'GetEmployeById']);
+    Route::get('getdata',[EmployeController::class,'Getdata']);
+    Route::post('addemploye',[EmployeController::class,'Addemploye']);
+    Route::post('activeinactiveemploye',[EmployeController::class,'ActiveInactiveEmploye']);
+    Route::post('editemploye',[EmployeController::class,'Editemploye']);
+    Route::post('deleteemploye',[EmployeController::class,'Deleteemploye']);
 });
 
 
-
-Route::get('getdata',[EmployeController::class,'Getdata']);
-Route::post('addemploye',[EmployeController::class,'Addemploye']);
-Route::post('activeinactiveemploye',[EmployeController::class,'ActiveInactiveEmploye']);
-Route::post('getemployebyid',[EmployeController::class,'GetEmployeById']);
-Route::post('editemploye',[EmployeController::class,'Editemploye']);
-Route::post('deleteemploye',[EmployeController::class,'Deleteemploye']);

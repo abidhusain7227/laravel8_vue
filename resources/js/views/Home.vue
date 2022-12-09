@@ -1,5 +1,16 @@
+<script>
+import navbarVue from './layout/navbar.vue';
+export default {
+  components:{navbarVue},
+  mounted() {
+      console.log('Home')
+  }
+}
+</script>
+
 <template>
   <div>
+    <navbarVue />
       <h1>Test Vue home</h1>
       <!-- Try Bootstrap -->
       <div class="alert alert-primary" role="alert">
@@ -24,14 +35,3 @@
   </div>
 </template>
 
-<script>
-export default {
-  mounted() {
-      console.log('Home')
-  }
-}
-</script>
-
-<style>
-
-</style>

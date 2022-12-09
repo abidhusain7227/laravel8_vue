@@ -1,5 +1,11 @@
 <script>
 export default {
+
+    methods: {
+        logout(){
+            this.$auth.logout();
+        }
+    }
     
 };
 </script>
@@ -11,6 +17,7 @@ export default {
                 <router-link :to="{ name: 'about' }" class="nav-link">About</router-link>
                 <router-link :to="{ name: 'contact' }" class="nav-link">Contact</router-link>
                 <router-link :to="{ name : 'employe'}" class="nav-link">Employe</router-link>
+                <router-link :to="{ name : 'login'}" class="nav-link">Login</router-link>
                 <!-- <b-nav-item-dropdown text="Lang" right>
                     <b-dropdown-item href="#">EN</b-dropdown-item>
                     <b-dropdown-item href="#">ES</b-dropdown-item>
@@ -22,6 +29,7 @@ export default {
                     <b-dropdown-item href="#">Account</b-dropdown-item>
                     <b-dropdown-item href="#">Settings</b-dropdown-item>
                 </b-nav-item-dropdown> -->
+                <button class="badge badge-success" @click="logout">logout</button>
             </b-navbar-nav>
         </b-navbar>
     </div>

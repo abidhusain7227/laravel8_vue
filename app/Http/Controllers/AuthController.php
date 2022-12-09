@@ -56,6 +56,7 @@ class AuthController extends Controller
     }
     public function Login(Request $request)
     {
+        // dd($request->all());
         try {
             $validateUser = Validator::make(
                 $request->all(),
@@ -66,24 +67,29 @@ class AuthController extends Controller
             );
 
             if ($validateUser->fails()) {
-                return response()->json([
-                    'status' => false,
-                    'message' => 'validation error',
-                    'errors' => $validateUser->errors()
-                ], 401);
+                // return response()->json($validateUser->messages(), 401);
+                // return response()->json([
+                //     'status' => false,
+                //     'message' => $validateUser->messages(),
+                // ], 401);
+                return response()->json(['errors'=>$validateUser->errors()->all()]);
             }
 
             if (!Auth::attempt($request->only(['email', 'password']))) {
-                return response()->json([
-                    'status' => false,
-                    'message' => 'Email & Password does not match with our record.',
-                ], 401);
+                // return response()->json([
+                //     'status' => false,
+                //     'message' => array(['Email & Password does not match with our record.']),
+                // ], 401);
+                // dd('hello');
+                // return 'abid';
+                // return response()->json(['errors' => 'Email & Password does not match with our record.'], 101);
+                return response()->json(['errors' => 'Email & Password does not match with our record.']);
             }
 
             $user = User::where('email', $request->email)->first();
 
             return response()->json([
-                'status' => true,
+                'user' => $user,
                 'message' => 'User Logged In Successfully',
                 'token' => $user->createToken("Abidhusain API TOKEN")->plainTextToken
             ], 200);
@@ -97,12 +103,13 @@ class AuthController extends Controller
 
     public function Logout(Request $request)
     {
+        // dd($request->user());
         // dd($request->user()->toArray());
         $user = $request->user();
         // Revoke all tokens...
         $user->tokens()->delete();
 
-        return 'logout successfully';
+        return response()->json(['message' => 'User logout Successfully'], 200);
 
         // Revoke the token that was used to authenticate the current request...
         // $request->user()->currentAccessToken()->delete();
