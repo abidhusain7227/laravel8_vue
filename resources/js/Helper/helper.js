@@ -19,6 +19,7 @@ const set_axios_defaults = (token) => {
                       duration: 2000
                     });
                     remove_token();
+                    Vue.prototype.$auth.logging_done = false;
                     router.push({ name: "login" }).catch(() => {});
                   }
             } else if (err.response.status === 500) {
