@@ -97,6 +97,7 @@ export default {
                 });
             }
         },
+        
     },
     mounted() {
         this.getEmploye();
