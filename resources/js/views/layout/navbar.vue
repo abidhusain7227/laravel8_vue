@@ -4,6 +4,33 @@ export default {
     methods: {
         logout(){
             this.$auth.logout();
+        },
+        initFullScreen() {
+            document.body.classList.toggle("fullscreen-enable");
+            if (
+                !document.fullscreenElement &&
+                /* alternative standard method */ !document.mozFullScreenElement &&
+                !document.webkitFullscreenElement
+            ) {
+                // current working methods
+                if (document.documentElement.requestFullscreen) {
+                document.documentElement.requestFullscreen();
+                } else if (document.documentElement.mozRequestFullScreen) {
+                document.documentElement.mozRequestFullScreen();
+                } else if (document.documentElement.webkitRequestFullscreen) {
+                document.documentElement.webkitRequestFullscreen(
+                    Element.ALLOW_KEYBOARD_INPUT
+                );
+                }
+            } else {
+                if (document.cancelFullScreen) {
+                document.cancelFullScreen();
+                } else if (document.mozCancelFullScreen) {
+                document.mozCancelFullScreen();
+                } else if (document.webkitCancelFullScreen) {
+                document.webkitCancelFullScreen();
+                }
+            }
         }
     }
     
@@ -30,6 +57,8 @@ export default {
                     <b-dropdown-item href="#">Settings</b-dropdown-item>
                 </b-nav-item-dropdown> -->
                 <button class="badge badge-success" @click="logout">logout</button>
+                <button class="nav-link" @click="initFullScreen"> <i class="bx bx-fullscreen"></i></button>
+
             </b-navbar-nav>
         </b-navbar>
     </div>
